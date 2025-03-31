@@ -8,6 +8,8 @@ import {
   Patch,
 } from '@nestjs/common';
 import { DriversService } from '../services/driver.service';
+import { Roles } from 'src/features/auth/decorators/roles.decorator';
+import { CurrentUser, ICurrentUser } from '../../users/decorators/user.decorator';
 import { DriverEntity } from '../data/entities/driver.entity';
 
 @Controller('drivers')
@@ -15,30 +17,46 @@ export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
   @Post()
-  create(@Body() createDriverDto: Partial<DriverEntity>): Promise<DriverEntity> {
-    return this.driversService.create(createDriverDto);
+  @Roles('admin')
+  async create(
+    @Body() createDriverDto: Partial<DriverEntity>,
+    @CurrentUser() user: ICurrentUser
+  ): Promise<DriverEntity> {
+    return this.driversService.create(createDriverDto, user);
   }
 
   @Get()
-  findAll(): Promise<DriverEntity[]> {
-    return this.driversService.findAll();
+  @Roles('admin')
+  async findAll(
+    @CurrentUser() user: ICurrentUser
+  ): Promise<DriverEntity[]> {
+    return this.driversService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<DriverEntity | null> {
-    return this.driversService.findOne(id);
+  async findOne(
+    @Param('id') id: string,
+    @CurrentUser() user: ICurrentUser
+  ): Promise<DriverEntity | null> {
+    return this.driversService.findOne(id, user);
   }
 
   @Patch(':id')
-  update(
+  @Roles('admin')
+  async update(
     @Param('id') id: string,
     @Body() updateDriverDto: Partial<DriverEntity>,
+    @CurrentUser() user: ICurrentUser
   ): Promise<DriverEntity | null> {
-    return this.driversService.update(id, updateDriverDto);
+    return this.driversService.update(id, updateDriverDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DriverEntity | null> {
-    return this.driversService.remove(id);
+  @Roles('admin')
+  async remove(
+    @Param('id') id: string,
+    @CurrentUser() user: ICurrentUser
+  ): Promise<DriverEntity | null> {
+    return this.driversService.remove(id, user);
   }
 }
