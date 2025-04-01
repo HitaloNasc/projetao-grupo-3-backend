@@ -36,6 +36,8 @@ export class CreateUserRequestDto {
   @IsString({ message: 'photo must be a string' })
   photo?: string;
 
+  mustChangePassword?: boolean;
+
   @IsOptional()
   @IsEnum(UserProviderEnum, { message: 'provider must be a valid enum value' })
   provider?: UserProviderEnum;
