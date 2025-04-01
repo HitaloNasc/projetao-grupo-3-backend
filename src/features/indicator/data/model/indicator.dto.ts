@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsDate, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsDate, IsUUID, IsNumber } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class IndicatorDto {
@@ -13,6 +13,9 @@ export class IndicatorDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsNumber()
+  weight: number;
 
   @IsOptional()
   @IsDate()

@@ -9,6 +9,9 @@ export class IndicatorEntity extends Document {
   @Prop({ required: true })
   description: string;
 
+  @Prop({ required: true, default: 0 })
+  weight: number;
+
   @Prop({ default: Date.now })
   createdAt?: Date;
 
