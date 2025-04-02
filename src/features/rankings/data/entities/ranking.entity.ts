@@ -14,7 +14,11 @@ export class RankingEntity extends Document {
   position: number;
 
   @Prop({ required: true })
-  indicators: Array<IndicatorEntity>;
+  indicators: Array<{
+    id: string;
+    name: string;
+    value: number;
+  }>;
 
   @Prop({ default: Date.now })
   createdAt?: Date;

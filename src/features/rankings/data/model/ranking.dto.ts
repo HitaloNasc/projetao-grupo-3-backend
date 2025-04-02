@@ -21,7 +21,12 @@ export class RankingDto {
 
   @IsArray()
   @IsNotEmpty()
-  indicators: Array<IndicatorDto>;
+  indicators: Array<{
+    id: string;
+    name: string;
+    value: number;
+  }>;
+
 
   @IsOptional()
   @IsDate()

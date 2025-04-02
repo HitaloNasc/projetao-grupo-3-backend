@@ -8,6 +8,11 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class RankingController {
   constructor(private readonly service: RankingService) {}
 
+  // @Get()
+  // async getAllRankings(): Promise<RankingDto[]> {
+  //   return await this.service.getAllRankings();
+  // }
+
   @Post('/update_rankings')
   @UseInterceptors(FileInterceptor('file'))
   async importCSV(
