@@ -9,6 +9,7 @@ export class IndicatorMapper {
     dto.id = entity.id;
     dto.name = entity.name;
     dto.description = entity.description;
+    dto.weight = entity.weight;
     dto.createdAt = entity.createdAt;
     dto.updatedAt = entity.updatedAt;
 

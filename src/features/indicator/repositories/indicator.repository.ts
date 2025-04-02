@@ -10,7 +10,7 @@ export class IndicatorRepository {
     private model: Model<IndicatorEntity>,
   ) {}
 
-  public async create(name: string, description: string): Promise<IndicatorEntity> {
+  public async create(name: string, description: string, weight: number): Promise<IndicatorEntity> {
     const newIndicator = new this.model({ name, description });
     await newIndicator.save();
     return newIndicator;

@@ -18,8 +18,8 @@ export class IndicatorService {
     return IndicatorMapper.entityToDto(entity);
   }
 
-  public async create(name: string, description: string): Promise<IndicatorDto> {
-    const entity = await this.repository.create(name, description);
+  public async create(name: string, description: string, weight: number): Promise<IndicatorDto> {
+    const entity = await this.repository.create(name, description, weight);
     return IndicatorMapper.entityToDto(entity);
   }
 
@@ -31,6 +31,7 @@ export class IndicatorService {
     id: string,
     name: string,
     description: string,
+    weight: number,
   ): Promise<IndicatorDto> {
     const entity = await this.repository.findById(id);
     if (!entity) {
@@ -39,6 +40,7 @@ export class IndicatorService {
   
     entity.name = name;
     entity.description = description;
+    entity.weight = weight;
     entity.updatedAt = new Date();
   
     const updatedEntity = await this.repository.update(entity);
