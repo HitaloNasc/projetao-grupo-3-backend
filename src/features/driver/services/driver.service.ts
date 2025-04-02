@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DriverEntity } from '../data/entities/driver.entity';
-import { ICurrentUser } from '../../users/decorators/user.decorator';
 import { UserService } from 'src/features/users/services/user.service';
-import * as bcrypt from 'bcryptjs';
+import { ICurrentUser } from '../../users/decorators/user.decorator';
+import { DriverEntity } from '../data/entities/driver.entity';
 
 @Injectable()
 export class DriversService {
@@ -25,15 +24,14 @@ export class DriversService {
     }
 
     const currentYear = new Date().getFullYear();
-    const initialPassword = `${name}${currentYear}`;
-    const hashedPassword = await bcrypt.hash(initialPassword, 10);
+    const initialPassword = `${name}@${currentYear}`;
 
     const newUser = await this.userService.create({
       email,
-      password: hashedPassword,
+      password: initialPassword,
       mustChangePassword: true,
-      name: '',
-      confirmPassword: ''
+      name,
+      confirmPassword: initialPassword,
     });
 
     const createdDriver = new this.driverModel({
@@ -46,15 +44,10 @@ export class DriversService {
   }
 
   async findAll(user: ICurrentUser): Promise<DriverEntity[]> {
-    return this.driverModel
-      .find({ institutionId: user.institutionId })
-      .exec();
+    return this.driverModel.find({ institutionId: user.institutionId }).exec();
   }
 
-  async findOne(
-    id: string,
-    user: ICurrentUser,
-  ): Promise<DriverEntity | null> {
+  async findOne(id: string, user: ICurrentUser): Promise<DriverEntity | null> {
     return this.driverModel
       .findOne({ _id: id, institutionId: user.institutionId })
       .exec();
@@ -74,10 +67,7 @@ export class DriversService {
       .exec();
   }
 
-  async remove(
-    id: string,
-    user: ICurrentUser,
-  ): Promise<DriverEntity | null> {
+  async remove(id: string, user: ICurrentUser): Promise<DriverEntity | null> {
     return this.driverModel
       .findOneAndDelete({ _id: id, institutionId: user.institutionId })
       .exec();
