@@ -64,6 +64,10 @@ export class RankingService {
     rankingDtos = rankingDtos.map((ranking, index) => ({
       ...ranking,
       position: index + 1,
+      indicators: ranking.indicators.map((indicator) => ({
+        ...indicator,
+        value: this.formatScore(indicator.value),
+      })),
     }));
     return rankingDtos;
   }
