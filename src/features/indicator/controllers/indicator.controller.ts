@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, Body, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Body,
+  Put,
+} from '@nestjs/common';
 import { IndicatorService } from '../services/indicator.service';
 import { IndicatorDto } from '../data/model/indicator.dto';
 import { Roles } from 'src/features/auth/decorators/roles.decorator';
