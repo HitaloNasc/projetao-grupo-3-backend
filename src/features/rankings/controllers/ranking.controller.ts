@@ -7,4 +7,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('rankings')
 export class RankingController {
   constructor(private readonly service: RankingService) {}
+
+  @Post('/update_rankings')
+  @UseInterceptors(FileInterceptor('file'))
+  async importCSV(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<void> {
+    return await this.service.processCSV(file);
+  }
 }

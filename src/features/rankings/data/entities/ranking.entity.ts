@@ -23,4 +23,13 @@ export class RankingEntity extends Document {
   updatedAt?: Date;
 }
 
-export const RankingSchema = SchemaFactory.createForClass(RankingEntity);
+const RankingSchema = SchemaFactory.createForClass(RankingEntity);
+
+// Middleware para atualizar o score antes de salvar
+RankingSchema.pre('save', function (next) {
+  // Calcula a soma dos valores dos indicadores
+  this.score = this.indicators.reduce((sum, indicator) => sum + indicator.value, 0);
+  next();
+});
+
+export { RankingSchema };
