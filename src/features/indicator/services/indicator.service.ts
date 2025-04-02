@@ -23,7 +23,11 @@ export class IndicatorService {
     description: string,
     weight: number,
   ): Promise<IndicatorDto> {
-    const entity = await this.repository.create(name, description, weight);
+    const entity = await this.repository.create(
+      name,
+      description,
+      this.formatWeight(weight),
+    );
     return IndicatorMapper.entityToDto(entity);
   }
 
@@ -44,10 +48,14 @@ export class IndicatorService {
 
     entity.name = name || entity.name;
     entity.description = description || entity.description;
-    entity.weight = weight || entity.weight;
+    entity.weight = this.formatWeight(weight) || entity.weight;
     entity.updatedAt = new Date();
 
     const updatedEntity = await this.repository.update(entity);
     return IndicatorMapper.entityToDto(updatedEntity);
+  }
+
+  private formatWeight(weight: number): number {
+    return parseFloat(weight.toFixed(2));
   }
 }
