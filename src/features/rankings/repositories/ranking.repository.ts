@@ -18,7 +18,6 @@ export class RankingRepository {
     date: string;
     score: number;
   }): Promise<RankingEntity> {
-    // Encontra o ranking que contém o driver
     let rankingEntry = await this.model.findOne({ driverId: data.driver.id });
 
     if (!rankingEntry) {
@@ -37,7 +36,6 @@ export class RankingRepository {
       });
     }
 
-    // Encontra o indicador dentro do ranking
     const rankingIndicatorIndex = rankingEntry.indicators.findIndex(
       (indicator) => indicator.id === data.indicator.id,
     );
@@ -49,20 +47,18 @@ export class RankingRepository {
         value: data.score * data.indicator.weight,
       });
     } else {
-      // Realiza o cálculo: soma o value atual com (score * weight do indicador)
       const calculatedScore =
         rankingEntry.indicators[rankingIndicatorIndex].value +
         data.score * data.indicator.weight;
-
-      // Atualiza o value do indicador no array indicators
       rankingEntry.indicators[rankingIndicatorIndex].value = calculatedScore;
     }
 
-    // Salva o ranking atualizado no banco de dados
+    rankingEntry.updatedAt = new Date();
+    rankingEntry.markModified('indicators');
+
     await rankingEntry.save();
 
-    // Retorna o resultado do cálculo
-    return rankingEntry;
+    return await this.model.findOne({ driverId: data.driver.id }).exec();
   }
 
   public async findAll(): Promise<RankingEntity[]> {
