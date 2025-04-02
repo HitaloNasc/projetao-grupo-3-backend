@@ -8,6 +8,7 @@ export class IndicatorMapper {
     const dto = new IndicatorDto();
     dto.id = entity.id;
     dto.name = entity.name;
+    dto.weight = entity.weight;
     dto.description = entity.description;
     dto.createdAt = entity.createdAt;
     dto.updatedAt = entity.updatedAt;

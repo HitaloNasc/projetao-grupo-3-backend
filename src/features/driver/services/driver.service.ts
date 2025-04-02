@@ -17,7 +17,7 @@ export class DriversService {
     createDriverDto: Partial<DriverEntity>,
     user: ICurrentUser,
   ): Promise<DriverEntity> {
-    const { name, email } = createDriverDto;
+    const { name, email } = createDriverDto;    
 
     if (!name || !email) {
       throw new Error('Nome e e-mail são obrigatórios.');

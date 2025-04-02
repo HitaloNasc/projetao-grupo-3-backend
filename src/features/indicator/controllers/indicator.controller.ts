@@ -30,9 +30,9 @@ export class IndicatorController {
   @Post()
   @Roles('admin')
   async create(
-    @Body() body: { name: string; description: string },
+    @Body() body: { name: string; description: string, weight: number },
   ): Promise<IndicatorDto> {
-    return await this.service.create(body.name, body.description);
+    return await this.service.create(body.name, body.description, body.weight);
   }
 
   @Delete(':id')

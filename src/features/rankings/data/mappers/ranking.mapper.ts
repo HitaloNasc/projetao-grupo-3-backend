@@ -8,8 +8,7 @@ export class RankingMapper {
     const dto = new RankingDto();
     dto.id = entity.id;
     dto.name = entity.name;
-    dto.score = entity.score;
-    dto.position = entity.position;
+    dto.driverId = entity.driverId;
     dto.indicators = entity.indicators
     dto.createdAt = entity.createdAt;
     dto.updatedAt = entity.updatedAt;

@@ -18,8 +18,12 @@ export class IndicatorService {
     return IndicatorMapper.entityToDto(entity);
   }
 
-  public async create(name: string, description: string): Promise<IndicatorDto> {
-    const entity = await this.repository.create(name, description);
+  public async create(
+    name: string,
+    description: string,
+    weight: number,
+  ): Promise<IndicatorDto> {
+    const entity = await this.repository.create(name, description, weight);
     return IndicatorMapper.entityToDto(entity);
   }
 
@@ -36,11 +40,11 @@ export class IndicatorService {
     if (!entity) {
       throw new BadRequestException('Indicator not found');
     }
-  
+
     entity.name = name;
     entity.description = description;
     entity.updatedAt = new Date();
-  
+
     const updatedEntity = await this.repository.update(entity);
     return IndicatorMapper.entityToDto(updatedEntity);
   }

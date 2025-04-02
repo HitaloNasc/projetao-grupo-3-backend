@@ -1,6 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional, IsDate, IsUUID, IsNumber, IsArray } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { IndicatorDto } from 'src/features/indicator/data/model/indicator.dto';
+import { IsArray, IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class RankingDto {
   @IsOptional()
@@ -11,9 +10,13 @@ export class RankingDto {
   @IsNotEmpty()
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  driverId: string;
+
   @IsNumber()
   @IsNotEmpty()
-  score: number;
+  score?: number;
 
   @IsNumber()
   @IsNotEmpty()

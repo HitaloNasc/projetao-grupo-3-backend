@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IndicatorEntity } from 'src/features/indicator/data/entities/indicator.entity';
 
 @Schema()
 export class RankingEntity extends Document {
@@ -8,10 +7,7 @@ export class RankingEntity extends Document {
   name: string;
 
   @Prop({ required: true })
-  score: number;
-
-  @Prop({ required: true })
-  position: number;
+  driverId: string;
 
   @Prop({ required: true })
   indicators: Array<{
@@ -27,13 +23,4 @@ export class RankingEntity extends Document {
   updatedAt?: Date;
 }
 
-const RankingSchema = SchemaFactory.createForClass(RankingEntity);
-
-// Middleware para atualizar o score antes de salvar
-RankingSchema.pre('save', function (next) {
-  // Calcula a soma dos valores dos indicadores
-  this.score = this.indicators.reduce((sum, indicator) => sum + indicator.value, 0);
-  next();
-});
-
-export { RankingSchema };
+export const RankingSchema = SchemaFactory.createForClass(RankingEntity);
