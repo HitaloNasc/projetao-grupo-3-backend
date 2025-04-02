@@ -35,8 +35,6 @@ export class RankingService {
       (ranking) => ranking.driverId === driverId,
     );
 
-    console.log(`prox `, rankings[driverIndex - 1]);
-
     return {
       id: rankings[driverIndex].id,
       name: rankings[driverIndex].name,
