@@ -12,6 +12,7 @@ import { InstitutionModule } from './features/institutions/institution.module';
 import { UserModule } from './features/users/user.module';
 import { DatabaseModule } from './infra/database/database.module';
 import { IndicatorModule } from './features/indicator/indicator.module';
+import { RankingModule } from './features/rankings/ranking.module';	
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { IndicatorModule } from './features/indicator/indicator.module';
     UserModule,
     DatabaseModule,
     ImagesModule,
-    IndicatorModule
+    IndicatorModule,
+    RankingModule
   ],
   controllers: [],
   providers: [
