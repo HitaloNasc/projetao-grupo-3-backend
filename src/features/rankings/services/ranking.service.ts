@@ -35,6 +35,19 @@ export class RankingService {
       (ranking) => ranking.driverId === driverId,
     );
 
+    const indicators = await Promise.all(
+      rankings[driverIndex].indicators.map(async (indicator) => {
+        const indicatorDto = await this.indicatorService.findById(indicator.id);
+        return {
+          id: indicator.id,
+          name: indicator.name,
+          value: this.formatScore(indicator.value),
+          weight: indicatorDto.weight,
+          description: indicatorDto.description,
+        };
+      }),
+    );
+
     return {
       id: rankings[driverIndex].id,
       name: rankings[driverIndex].name,
@@ -46,18 +59,7 @@ export class RankingService {
           : 0,
       ),
       lastRakingPosition: null,
-      indicators: await rankings[driverIndex].indicators.map(
-        async (indicator) => {
-          const indicatorDto = await this.indicatorService.findById(
-            indicator.id,
-          );
-
-          return {
-            ...indicatorDto,
-            ...indicator,
-          };
-        },
-      ),
+      indicators: indicators,
     };
   }
 
