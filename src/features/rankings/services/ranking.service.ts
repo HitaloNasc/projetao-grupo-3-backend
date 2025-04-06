@@ -46,7 +46,18 @@ export class RankingService {
           : 0,
       ),
       lastRakingPosition: null,
-      indicators: rankings[driverIndex].indicators,
+      indicators: await rankings[driverIndex].indicators.map(
+        async (indicator) => {
+          const indicatorDto = await this.indicatorService.findById(
+            indicator.id,
+          );
+
+          return {
+            ...indicatorDto,
+            ...indicator,
+          };
+        },
+      ),
     };
   }
 
