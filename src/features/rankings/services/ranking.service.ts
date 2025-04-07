@@ -74,14 +74,26 @@ export class RankingService {
 
     rankingDtos.sort((a, b) => b.score - a.score);
 
-    rankingDtos = rankingDtos.map((ranking, index) => ({
-      ...ranking,
-      position: index + 1,
-      indicators: ranking.indicators.map((indicator) => ({
-        ...indicator,
-        value: this.formatScore(indicator.value),
-      })),
-    }));
+    rankingDtos = await Promise.all(
+      rankingDtos.map(async (ranking, index) => {
+        const indicators = await Promise.all(
+          ranking.indicators.map(async (indicator) => {
+            const indicatorDto = await this.indicatorService.findById(
+              indicator.id,
+            );
+            return {
+              id: indicator.id,
+              name: indicator.name,
+              value: this.formatScore(indicator.value),
+              weight: indicatorDto.weight,
+              description: indicatorDto.description,
+            };
+          }),
+        );
+
+        return { ...ranking, position: index + 1, indicators };
+      }),
+    );
     return rankingDtos;
   }
 
